@@ -20,7 +20,7 @@ public class PikselHudClient implements ClientModInitializer {
     public void onInitializeClient() {
         ConfigManager.load();
         openGuiKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.pikselhud.open_gui", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_P, "category.pikselhud"));
+                "key.pikselhud.open_gui", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_P, KeyBinding.Category.MISC));
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (openGuiKey.wasPressed()) {
                 if (client.currentScreen == null) client.setScreen(new MainScreen(null));
