@@ -11,7 +11,6 @@ Autorski, kliencki mod HUD do Minecraft Java Edition 1.21.11 na Fabric.
 - Paleta kolorów.
 - Presety: zapisywanie, wczytywanie i usuwanie.
 - Konfiguracja w `config/pikselhud.json`.
-- Renderowanie korzysta z aktualnego `HudElementRegistry` i 2D `Matrix3x2fStack` dla 1.21.11.
 
 ## Budowanie
 
@@ -27,6 +26,6 @@ JAR pojawi się w `build/libs/`.
 
 Potrzebujesz Minecraft Java 1.21.11 + Fabric Loader 0.18.0 lub nowszy oraz Fabric API 0.141.1+ dla 1.21.11. Wrzuc JAR PikselHUD i Fabric API do folderu `mods`.
 
-## Ważne
+## GitHub Actions
 
-Minecraft 26.1+ to osobna generacja API i wymaga osobnego portu moda. Ten JAR celowo jest dla 1.21.11.
+Każdy push oraz ręczne uruchomienie workflow buduje JAR i publikuje go jako artifact.
