@@ -1,0 +1,21 @@
+{
+  "category.pikselhud": "PikselHUD",
+  "key.pikselhud.open_gui": "Otwórz PikselHUD",
+  "pikselhud.screen.main.title": "PikselHUD",
+  "pikselhud.screen.main.settings": "Ustawienia",
+  "pikselhud.screen.main.presets": "Presety",
+  "pikselhud.screen.settings.title": "Ustawienia PikselHUD",
+  "pikselhud.screen.settings.coords": "Koordynaty",
+  "pikselhud.screen.settings.fps": "FPS",
+  "pikselhud.screen.settings.ping": "Ping",
+  "pikselhud.screen.settings.scale": "Skala: %s",
+  "pikselhud.screen.settings.font": "Czcionka: %s",
+  "pikselhud.screen.settings.color": "Kolor: %s",
+  "pikselhud.screen.settings.save": "Zapisz",
+  "pikselhud.screen.settings.hint": "Przeciągnij elementy HUD myszą, aby je ustawić",
+  "pikselhud.screen.presets.title": "Presety PikselHUD",
+  "pikselhud.screen.presets.save_current": "Zapisz obecny jako...",
+  "pikselhud.screen.presets.apply": "Zastosuj",
+  "pikselhud.screen.presets.delete": "Usuń",
+  "pikselhud.screen.presets.reload": "Odśwież konfigurację"
+}
