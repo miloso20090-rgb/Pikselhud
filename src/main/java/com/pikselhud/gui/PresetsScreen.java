@@ -10,7 +10,6 @@ import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PresetsScreen extends Screen {
     private final Screen parent;
@@ -36,7 +35,7 @@ public class PresetsScreen extends Screen {
                 ConfigManager.data.presets.put(name, ConfigManager.data.active.copy());
                 ConfigManager.save();
                 nameField.setText("");
-                this.client.setScreen(new PresetsScreen(parent)); // odswiez liste
+                this.client.setScreen(new PresetsScreen(parent));
             }
         }).dimensions(centerX + 55, top, 90, 20).build());
 
@@ -56,7 +55,7 @@ public class PresetsScreen extends Screen {
             this.addDrawableChild(ButtonWidget.builder(Text.translatable("pikselhud.screen.presets.delete"), b -> {
                 ConfigManager.data.presets.remove(name);
                 ConfigManager.save();
-                this.client.setScreen(new PresetsScreen(parent)); // odswiez liste
+                this.client.setScreen(new PresetsScreen(parent));
             }).dimensions(centerX + 75, y, 80, 20).build());
 
             y += 24;
@@ -73,7 +72,7 @@ public class PresetsScreen extends Screen {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        this.renderBackground(context, mouseX, mouseY, delta);
+        context.fill(0, 0, this.width, this.height, 0xC0101010);
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 10, 0xFFFFFF);
         if (ConfigManager.data.presets.isEmpty()) {
             context.drawCenteredTextWithShadow(this.textRenderer,
