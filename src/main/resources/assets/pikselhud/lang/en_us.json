@@ -17,5 +17,6 @@
   "pikselhud.screen.presets.save_current": "Save current as...",
   "pikselhud.screen.presets.apply": "Apply",
   "pikselhud.screen.presets.delete": "Delete",
-  "pikselhud.screen.presets.reload": "Reload config"
+  "pikselhud.screen.presets.reload": "Refresh list",
+  "pikselhud.screen.presets.reset": "Factory settings"
 }
