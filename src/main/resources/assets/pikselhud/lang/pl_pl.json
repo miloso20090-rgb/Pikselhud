@@ -17,5 +17,6 @@
   "pikselhud.screen.presets.save_current": "Zapisz obecny jako...",
   "pikselhud.screen.presets.apply": "Zastosuj",
   "pikselhud.screen.presets.delete": "Usuń",
-  "pikselhud.screen.presets.reload": "Odśwież konfigurację"
+  "pikselhud.screen.presets.reload": "Odśwież listę",
+  "pikselhud.screen.presets.reset": "Ustawienia fabryczne"
 }
