@@ -35,6 +35,12 @@ public final class ConfigManager {
         }
     }
 
+    /** Przywraca aktywny HUD do ustawień fabrycznych. Presety pozostają bez zmian. */
+    public static void resetToDefaults() {
+        data.active = new HudConfig();
+        save();
+    }
+
     public static void save() {
         data.sanitize();
         try {
