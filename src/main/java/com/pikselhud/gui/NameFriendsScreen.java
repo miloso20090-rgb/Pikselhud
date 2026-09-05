@@ -14,6 +14,7 @@ public class NameFriendsScreen extends Screen {
     private TextFieldWidget replacementField;
     private TextFieldWidget friendsField;
     private NameProtectMode workingMode;
+    private boolean hideSelfSkin;
 
     public NameFriendsScreen(Screen parent) {
         super(Text.translatable("pikselhud.screen.namefriends.title"));
@@ -24,6 +25,7 @@ public class NameFriendsScreen extends Screen {
     protected void init() {
         int cx = this.width / 2;
         workingMode = NameProtectManager.getMode();
+        hideSelfSkin = NameProtectManager.shouldHideSelfSkin();
 
         replacementField = new TextFieldWidget(this.textRenderer, cx - 140, 55, 280, 20, Text.translatable("pikselhud.screen.namefriends.replacement"));
         replacementField.setMaxLength(32);
@@ -39,6 +41,11 @@ public class NameFriendsScreen extends Screen {
         addModeButton(cx - 70, 85, 65, NameProtectMode.SELF, "SELF");
         addModeButton(cx, 85, 65, NameProtectMode.ALL, "ALL");
         addModeButton(cx + 70, 85, 70, NameProtectMode.FRIENDS, "FRIENDS");
+
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Ukryj mój skin: " + (hideSelfSkin ? "WL" : "WYL")), b -> {
+            hideSelfSkin = !hideSelfSkin;
+            b.setMessage(Text.literal("Ukryj mój skin: " + (hideSelfSkin ? "WL" : "WYL")));
+        }).dimensions(cx - 140, 170, 280, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("pikselhud.screen.namefriends.save"), b -> saveAndClose())
                 .dimensions(cx - 140, this.height - 45, 135, 20).build());
@@ -57,9 +64,11 @@ public class NameFriendsScreen extends Screen {
         NameProtectManager.setMode(workingMode);
         NameProtectManager.setReplacement(replacementField.getText());
         NameProtectManager.setFriendsRaw(friendsField.getText());
+        NameProtectManager.setHideSelfSkin(hideSelfSkin);
         ConfigManager.data.nameProtect.mode = workingMode;
         ConfigManager.data.nameProtect.replacement = replacementField.getText();
         ConfigManager.data.nameProtect.friends = friendsField.getText();
+        ConfigManager.data.nameProtect.hideSelfSkin = hideSelfSkin;
         ConfigManager.save();
         if (this.client.inGameHud != null) this.client.inGameHud.getChatHud().reset();
         this.client.setScreen(parent);
