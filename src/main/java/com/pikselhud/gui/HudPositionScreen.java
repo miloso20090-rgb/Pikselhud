@@ -3,8 +3,10 @@ package com.pikselhud.gui;
 import com.pikselhud.config.ConfigManager;
 import com.pikselhud.config.ElementConfig;
 import com.pikselhud.config.HudConfig;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.Text;
 
 public class HudPositionScreen extends Screen {
@@ -22,8 +24,10 @@ public class HudPositionScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0) {
+    public boolean mouseClicked(Click click, boolean doubled) {
+        double mouseX = click.x();
+        double mouseY = click.y();
+        if (click.button() == 0) {
             ElementConfig hit = findElement(mouseX, mouseY);
             if (hit != null) {
                 dragging = hit;
@@ -32,28 +36,28 @@ public class HudPositionScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(click, doubled);
     }
 
     @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
-        if (dragging != null && button == 0) {
-            dragging.x = (int) mouseX - dragOffsetX;
-            dragging.y = (int) mouseY - dragOffsetY;
+    public boolean mouseDragged(Click click, double offsetX, double offsetY) {
+        if (dragging != null && click.button() == 0) {
+            dragging.x = (int) click.x() - dragOffsetX;
+            dragging.y = (int) click.y() - dragOffsetY;
             dragging.sanitize();
             return true;
         }
-        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        return super.mouseDragged(click, offsetX, offsetY);
     }
 
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0 && dragging != null) {
+    public boolean mouseReleased(Click click) {
+        if (click.button() == 0 && dragging != null) {
             dragging.sanitize();
             dragging = null;
             return true;
         }
-        return super.mouseReleased(mouseX, mouseY, button);
+        return super.mouseReleased(click);
     }
 
     private ElementConfig findElement(double mouseX, double mouseY) {
@@ -95,14 +99,14 @@ public class HudPositionScreen extends Screen {
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == 257 || keyCode == 335) {
+    public boolean keyPressed(KeyInput input) {
+        if (input.getKeycode() == 257 || input.getKeycode() == 335) {
             ConfigManager.data.active = working;
             ConfigManager.save();
             client.setScreen(parent);
             return true;
         }
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(input);
     }
 
     @Override
