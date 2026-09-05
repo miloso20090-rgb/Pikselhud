@@ -1,7 +1,6 @@
 package com.pikselhud.mixin;
 
 import com.pikselhud.nameprotect.NameProtectManager;
-import com.pikselhud.nameprotect.NameProtectMode;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 import net.minecraft.client.util.DefaultSkinHelper;
@@ -29,7 +28,7 @@ public class PlayerEntityRendererMixin {
             state.outlineColor = 0x00FF00;
         }
 
-        if (NameProtectManager.getMode() == NameProtectMode.SELF && player.isMainPlayer()) {
+        if (player.isMainPlayer() && NameProtectManager.shouldHideSelfSkin()) {
             state.skinTextures = DefaultSkinHelper.getSteve();
         }
     }
