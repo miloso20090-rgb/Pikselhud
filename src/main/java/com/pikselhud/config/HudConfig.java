@@ -6,7 +6,6 @@ public class HudConfig {
     public ElementConfig ping;
 
     public HudConfig() {
-        // Give each indicator its own sensible default position instead of stacking all of them.
         coords = new ElementConfig(10, 10);
         fps = new ElementConfig(10, 30);
         ping = new ElementConfig(10, 50);
@@ -24,6 +23,13 @@ public class HudConfig {
         if (coords == null) coords = new ElementConfig(10, 10);
         if (fps == null) fps = new ElementConfig(10, 30);
         if (ping == null) ping = new ElementConfig(10, 50);
+
+        // Migrate the old version where every indicator defaulted to 10,10.
+        if (coords.x == 10 && coords.y == 10 && fps.x == 10 && fps.y == 10 && ping.x == 10 && ping.y == 10) {
+            fps.x = 10; fps.y = 30;
+            ping.x = 10; ping.y = 50;
+        }
+
         coords.sanitize();
         fps.sanitize();
         ping.sanitize();
