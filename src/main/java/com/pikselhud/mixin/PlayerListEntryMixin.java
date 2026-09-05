@@ -1,7 +1,6 @@
 package com.pikselhud.mixin;
 
 import com.pikselhud.nameprotect.NameProtectManager;
-import com.pikselhud.nameprotect.NameProtectMode;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.DefaultSkinHelper;
@@ -16,12 +15,10 @@ public class PlayerListEntryMixin {
     @Inject(method = "getSkinTextures", at = @At("RETURN"), cancellable = true)
     private void pikselhud$maskOwnTabSkin(CallbackInfoReturnable<SkinTextures> cir) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) return;
+        if (client.player == null || !NameProtectManager.shouldHideSelfSkin()) return;
 
         PlayerListEntry entry = (PlayerListEntry) (Object) this;
-        if (entry.getProfile() != null
-                && entry.getProfile().id().equals(client.player.getUuid())
-                && NameProtectManager.getMode() == NameProtectMode.SELF) {
+        if (entry.getProfile() != null && entry.getProfile().id().equals(client.player.getUuid())) {
             cir.setReturnValue(DefaultSkinHelper.getSteve());
         }
     }
