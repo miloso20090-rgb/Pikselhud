@@ -5,10 +5,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.render.VertexRendering;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.shape.VoxelShapes;
 
 public final class FriendsOutlineRenderer {
     private FriendsOutlineRenderer() {}
@@ -33,12 +34,15 @@ public final class FriendsOutlineRenderer {
             Box box = player.getBoundingBox().expand(0.025)
                     .offset(-cameraPos.x, -cameraPos.y, -cameraPos.z);
             matrices.push();
-            WorldRenderer.drawBox(
+            VertexRendering.drawOutline(
                     matrices,
                     vertexConsumer,
-                    box.minX, box.minY, box.minZ,
-                    box.maxX, box.maxY, box.maxZ,
-                    0.0f, 1.0f, 0.0f, 1.0f
+                    VoxelShapes.cuboid(box),
+                    0.0,
+                    0.0,
+                    0.0,
+                    0xFF00FF00,
+                    2.0f
             );
             matrices.pop();
         }
