@@ -26,17 +26,16 @@ public class PikselHudClient implements ClientModInitializer {
                 "key.pikselhud.open_gui",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_P,
-                new KeyBinding.Category(Identifier.of(MOD_ID, "pixelhub"))
+                new KeyBinding.Category(Identifier.of(MOD_ID, "pikselhub"))
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             while (openGuiKey.wasPressed()) {
-                if (client.currentScreen == null) {
-                    client.setScreen(new MainScreen(null));
-                }
+                if (client.currentScreen == null) client.setScreen(new MainScreen(null));
             }
         });
 
-        HudElementRegistry.addLast(Identifier.of(MOD_ID, "hud"), (drawContext, tickCounter) -> HudRenderer.render(drawContext));
+        HudElementRegistry.addLast(Identifier.of(MOD_ID, "hud"),
+                (drawContext, tickCounter) -> HudRenderer.render(drawContext));
     }
 }
