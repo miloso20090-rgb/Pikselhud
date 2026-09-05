@@ -37,7 +37,12 @@ public class SettingsScreen extends Screen {
         pingToggle = this.addDrawableChild(ButtonWidget.builder(Text.literal("Ping"),
                 b -> { working.ping.enabled = !working.ping.enabled; updateLabels(); })
                 .dimensions(x, y, 220, 20).build());
-        y += 40;
+        y += 35;
+
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Zmień pozycję wskaźników"),
+                b -> this.client.setScreen(new HudPositionScreen(this)))
+                .dimensions(x, y, 220, 20).build());
+        y += 35;
 
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("pikselhud.screen.settings.save"), b -> {
             ConfigManager.data.active = working;
