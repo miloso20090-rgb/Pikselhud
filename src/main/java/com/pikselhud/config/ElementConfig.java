@@ -8,6 +8,13 @@ public class ElementConfig {
     public int fontStyle = 0;
     public float scale = 1.0f;
 
+    public ElementConfig() {}
+
+    public ElementConfig(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public ElementConfig copy() {
         ElementConfig c = new ElementConfig();
         c.enabled = enabled;
