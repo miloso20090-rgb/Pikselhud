@@ -7,4 +7,5 @@ public class NameProtectConfig {
     public NameProtectMode mode = NameProtectMode.OFF;
     public String replacement = "Player";
     public String friends = "";
+    public boolean hideSelfSkin = true;
 }
