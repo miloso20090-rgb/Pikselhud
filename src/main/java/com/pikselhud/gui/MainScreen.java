@@ -21,17 +21,12 @@ public class MainScreen extends Screen {
         this.addDrawableChild(ButtonWidget.builder(
                 Text.translatable("pikselhud.screen.main.presets"),
                 button -> this.client.setScreen(new PresetsScreen(this))
-        ).dimensions(centerX - 100, centerY - 40, 200, 20).build());
+        ).dimensions(centerX - 100, centerY - 25, 200, 20).build());
 
         this.addDrawableChild(ButtonWidget.builder(
                 Text.translatable("pikselhud.screen.main.settings"),
                 button -> this.client.setScreen(new SettingsScreen(this))
-        ).dimensions(centerX - 100, centerY - 10, 200, 20).build());
-
-        this.addDrawableChild(ButtonWidget.builder(
-                Text.translatable("pikselhud.screen.main.name_friends"),
-                button -> this.client.setScreen(new NameFriendsScreen(this))
-        ).dimensions(centerX - 100, centerY + 20, 200, 20).build());
+        ).dimensions(centerX - 100, centerY + 5, 200, 20).build());
     }
 
     @Override
