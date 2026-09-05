@@ -61,16 +61,16 @@ public class PresetsScreen extends Screen {
             y += 24;
         }
 
-        this.addDrawableChild(ButtonWidget.builder(Text.literal("Wróć"), b -> this.client.setScreen(parent))
-                .dimensions(centerX - 155, this.height - 80, 310, 20).build());
+        this.addDrawableChild(ButtonWidget.builder(Text.literal("Wroc"), b -> this.client.setScreen(parent))
+                .dimensions(centerX - 155, this.height - 30, 310, 20).build());
 
-        // Tylko odświeża ekran na podstawie już załadowanej konfiguracji.
-        // Nie wywołujemy ConfigManager.load(), bo mogłoby to nadpisać świeżo zmieniony stan.
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("pikselhud.screen.presets.reload"), b -> {
-            this.client.setScreen(new PresetsScreen(parent));
+            if (this.client.getNetworkHandler() != null) {
+                this.client.getNetworkHandler().getConnection().disconnect(Text.translatable("pikselhud.disconnect.reload"));
+            }
+            this.client.setScreen(null);
         }).dimensions(centerX - 155, this.height - 55, 150, 20).build());
 
-        // Przywraca aktywny HUD do ustawień fabrycznych, ale nie usuwa presetów.
         this.addDrawableChild(ButtonWidget.builder(Text.translatable("pikselhud.screen.presets.reset"), b -> {
             ConfigManager.resetToDefaults();
             this.client.setScreen(new PresetsScreen(parent));
@@ -83,7 +83,7 @@ public class PresetsScreen extends Screen {
         context.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 10, 0xFFFFFF);
         if (ConfigManager.data.presets.isEmpty()) {
             context.drawCenteredTextWithShadow(this.textRenderer,
-                    Text.literal("Brak zapisanych presetów"), this.width / 2, 70, 0x999999);
+                    Text.literal("Brak zapisanych presetow"), this.width / 2, 70, 0x999999);
         }
         super.render(context, mouseX, mouseY, delta);
     }

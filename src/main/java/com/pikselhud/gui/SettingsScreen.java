@@ -3,7 +3,6 @@ package com.pikselhud.gui;
 import com.pikselhud.config.ConfigManager;
 import com.pikselhud.config.ElementConfig;
 import com.pikselhud.config.HudConfig;
-import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -12,11 +11,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix3x2fStack;
 
+/**
+ * Panel Ustawien PikselHUD.
+ * Elementy HUD mozna przeciagac bezposrednio na ekranie,
+ * a panel pozwala wlaczac/wylaczac, zmieniac skale i kolor.
+ */
 public class SettingsScreen extends Screen {
     private static final int[] PALETTE = {
             0xFFFFFF, 0xFF5555, 0x55FF55, 0xFFFF55, 0x55FFFF, 0xFF55FF, 0x5555FF, 0x000000
     };
-    private static final String[] FONT_NAMES = {"Normalna", "Pogrubiona", "Kursywa", "Pogr.+Kursywa"};
 
     private final Screen parent;
     private HudConfig working;
@@ -25,9 +28,8 @@ public class SettingsScreen extends Screen {
     private ButtonWidget coordsToggle;
     private ButtonWidget fpsToggle;
     private ButtonWidget pingToggle;
-    private ButtonWidget fontButton;
     private ButtonWidget colorButton;
-    private ScaleSlider scaleSlider;
+    private SliderWidget scaleSlider;
 
     private String draggingElement = null;
     private int dragOffsetX, dragOffsetY;
@@ -72,18 +74,21 @@ public class SettingsScreen extends Screen {
         y += 30;
 
         ElementConfig current = getSelected();
-        scaleSlider = new ScaleSlider(panelX, y, 210, 20,
+        scaleSlider = new SliderWidget(panelX, y, 210, 20,
                 Text.translatable("pikselhud.screen.settings.scale", String.format("%.1f", current.scale)),
-                normalizeScale(current.scale));
-        this.addDrawableChild(scaleSlider);
-        y += 24;
+                normalizeScale(current.scale)) {
+            @Override
+            protected void updateMessage() {
+                setMessage(Text.translatable("pikselhud.screen.settings.scale",
+                        String.format("%.1f", denormalizeScale(this.value))));
+            }
 
-        fontButton = ButtonWidget.builder(fontLabel(current.fontStyle), b -> {
-            ElementConfig sel = getSelected();
-            sel.fontStyle = (sel.fontStyle + 1) % 4;
-            fontButton.setMessage(fontLabel(sel.fontStyle));
-        }).dimensions(panelX, y, 210, 20).build();
-        this.addDrawableChild(fontButton);
+            @Override
+            protected void applyValue() {
+                getSelected().scale = denormalizeScale(this.value);
+            }
+        };
+        this.addDrawableChild(scaleSlider);
         y += 24;
 
         colorButton = ButtonWidget.builder(colorLabel(current.color), b -> {
@@ -108,11 +113,10 @@ public class SettingsScreen extends Screen {
     }
 
     private void refreshSelectedControls() {
-        if (scaleSlider == null || fontButton == null || colorButton == null) return;
+        if (scaleSlider == null || colorButton == null) return;
         ElementConfig sel = getSelected();
-        scaleSlider.setNormalizedValue(normalizeScale(sel.scale));
+        scaleSlider.setValue(normalizeScale(sel.scale));
         scaleSlider.updateMessage();
-        fontButton.setMessage(fontLabel(sel.fontStyle));
         colorButton.setMessage(colorLabel(sel.color));
     }
 
@@ -130,10 +134,6 @@ public class SettingsScreen extends Screen {
         pingToggle.setMessage(Text.literal("Ping: " + (working.ping.enabled ? "WL" : "WYL")));
     }
 
-    private static Text fontLabel(int style) {
-        return Text.literal("Czcionka: " + FONT_NAMES[style]);
-    }
-
     private static Text colorLabel(int color) {
         return Text.literal("Kolor: #" + String.format("%06X", color));
     }
@@ -143,27 +143,6 @@ public class SettingsScreen extends Screen {
             if (PALETTE[i] == current) return PALETTE[(i + 1) % PALETTE.length];
         }
         return PALETTE[0];
-    }
-
-    private class ScaleSlider extends SliderWidget {
-        ScaleSlider(int x, int y, int width, int height, Text text, double value) {
-            super(x, y, width, height, text, value);
-        }
-
-        public void setNormalizedValue(double value) {
-            setValue(value);
-        }
-
-        @Override
-        public void updateMessage() {
-            setMessage(Text.translatable("pikselhud.screen.settings.scale",
-                    String.format("%.1f", denormalizeScale(this.value))));
-        }
-
-        @Override
-        protected void applyValue() {
-            getSelected().scale = denormalizeScale(this.value);
-        }
     }
 
     private static double normalizeScale(float scale) {
@@ -189,7 +168,7 @@ public class SettingsScreen extends Screen {
     }
 
     private void drawPreview(DrawContext context, String key, String sample, ElementConfig element) {
-        int color = element.enabled ? ((element.color & 0x00FFFFFF) | 0xFF000000) : 0x88999999;
+        int color = element.enabled ? (element.color | 0xFF000000) : 0x88999999;
         boolean isSelected = key.equals(selected);
         Matrix3x2fStack matrices = context.getMatrices();
         matrices.pushMatrix();
@@ -201,15 +180,13 @@ public class SettingsScreen extends Screen {
         if (isSelected) {
             int w = (int) (this.textRenderer.getWidth(sample) * element.scale);
             int h = (int) (this.textRenderer.fontHeight * element.scale);
-            context.drawStrokedRectangle(element.x - 2, element.y - 2, w + 4, h + 4, 0xFFFFFFFF);
+            context.drawBorder(element.x - 2, element.y - 2, w + 4, h + 4, 0xFFFFFFFF);
         }
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean doubled) {
-        double mouseX = click.x();
-        double mouseY = click.y();
-        if (click.button() == 0) {
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 0) {
             String hit = elementAt(mouseX, mouseY);
             if (hit != null) {
                 selected = hit;
@@ -221,26 +198,24 @@ public class SettingsScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(click, doubled);
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
-    public boolean mouseDragged(Click click, double deltaX, double deltaY) {
-        double mouseX = click.x();
-        double mouseY = click.y();
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (draggingElement != null) {
             ElementConfig el = getSelected();
             el.x = (int) mouseX - dragOffsetX;
             el.y = (int) mouseY - dragOffsetY;
             return true;
         }
-        return super.mouseDragged(click, deltaX, deltaY);
+        return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
 
     @Override
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
         draggingElement = null;
-        return super.mouseReleased(click);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     private String elementAt(double mouseX, double mouseY) {
