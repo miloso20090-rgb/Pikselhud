@@ -16,8 +16,6 @@ public class SettingsScreen extends Screen {
     private static final int[] PALETTE = {
             0xFFFFFF, 0xFF5555, 0x55FF55, 0xFFFF55, 0x55FFFF, 0xFF55FF, 0x5555FF, 0x000000
     };
-    private static final String[] FONT_NAMES = {"Normalna", "Pogrubiona", "Kursywa", "Pogr.+Kursywa"};
-
     private final Screen parent;
     private HudConfig working;
     private String selected = "coords";
@@ -25,7 +23,6 @@ public class SettingsScreen extends Screen {
     private ButtonWidget coordsToggle;
     private ButtonWidget fpsToggle;
     private ButtonWidget pingToggle;
-    private ButtonWidget fontButton;
     private ButtonWidget colorButton;
     private ScaleSlider scaleSlider;
 
@@ -78,14 +75,6 @@ public class SettingsScreen extends Screen {
         this.addDrawableChild(scaleSlider);
         y += 24;
 
-        fontButton = ButtonWidget.builder(fontLabel(current.fontStyle), b -> {
-            ElementConfig sel = getSelected();
-            sel.fontStyle = (sel.fontStyle + 1) % 4;
-            fontButton.setMessage(fontLabel(sel.fontStyle));
-        }).dimensions(panelX, y, 210, 20).build();
-        this.addDrawableChild(fontButton);
-        y += 24;
-
         colorButton = ButtonWidget.builder(colorLabel(current.color), b -> {
             ElementConfig sel = getSelected();
             sel.color = nextColor(sel.color);
@@ -108,11 +97,10 @@ public class SettingsScreen extends Screen {
     }
 
     private void refreshSelectedControls() {
-        if (scaleSlider == null || fontButton == null || colorButton == null) return;
+        if (scaleSlider == null || colorButton == null) return;
         ElementConfig sel = getSelected();
         scaleSlider.setNormalizedValue(normalizeScale(sel.scale));
         scaleSlider.updateMessage();
-        fontButton.setMessage(fontLabel(sel.fontStyle));
         colorButton.setMessage(colorLabel(sel.color));
     }
 
@@ -128,10 +116,6 @@ public class SettingsScreen extends Screen {
         coordsToggle.setMessage(Text.literal("Koordynaty: " + (working.coords.enabled ? "WL" : "WYL")));
         fpsToggle.setMessage(Text.literal("FPS: " + (working.fps.enabled ? "WL" : "WYL")));
         pingToggle.setMessage(Text.literal("Ping: " + (working.ping.enabled ? "WL" : "WYL")));
-    }
-
-    private static Text fontLabel(int style) {
-        return Text.literal("Czcionka: " + FONT_NAMES[style]);
     }
 
     private static Text colorLabel(int color) {
