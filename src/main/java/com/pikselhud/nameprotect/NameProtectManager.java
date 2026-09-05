@@ -27,7 +27,7 @@ public final class NameProtectManager {
     public static void setReplacement(String value) { replacement = value == null ? "" : value; }
     public static String getFriendsRaw() { return friendsRaw; }
     public static void setFriendsRaw(String value) { friendsRaw = value == null ? "" : value; }
-    public static boolean shouldHideSelfSkin() { return hideSelfSkin; }
+    public static boolean shouldHideSelfSkin() { return hideSelfSkin && isEnabled(); }
     public static void setHideSelfSkin(boolean value) { hideSelfSkin = value; }
 
     public static Set<String> getFriends() {
@@ -54,7 +54,7 @@ public final class NameProtectManager {
     public static boolean targets(PlayerEntity player) { return player != null && targets(player.getGameProfile().name()); }
 
     public static boolean isFriend(String playerName) {
-        return containsIgnoreCase(getFriends(), playerName);
+        return mode == NameProtectMode.FRIENDS && containsIgnoreCase(getFriends(), playerName);
     }
 
     public static Text replacementText(PlayerListEntry entry) { return Text.literal(replacement); }
