@@ -1,14 +1,16 @@
 {
-  "category.pixelhub": "PixelHub",
+  "category.pikselhud": "PikselHUD",
   "key.pikselhud.open_gui": "Otwórz PikselHUD",
   "pikselhud.screen.main.title": "PikselHUD",
   "pikselhud.screen.main.settings": "Ustawienia",
   "pikselhud.screen.main.presets": "Presety",
+  "pikselhud.screen.main.name_friends": "Name Friends",
   "pikselhud.screen.settings.title": "Ustawienia PikselHUD",
   "pikselhud.screen.settings.coords": "Koordynaty",
   "pikselhud.screen.settings.fps": "FPS",
   "pikselhud.screen.settings.ping": "Ping",
   "pikselhud.screen.settings.scale": "Skala: %s",
+  "pikselhud.screen.settings.font": "Czcionka: %s",
   "pikselhud.screen.settings.color": "Kolor: %s",
   "pikselhud.screen.settings.save": "Zapisz",
   "pikselhud.screen.settings.hint": "Przeciągnij elementy HUD myszą, aby je ustawić",
@@ -18,5 +20,12 @@
   "pikselhud.screen.presets.delete": "Usuń",
   "pikselhud.screen.presets.reload": "Reload",
   "pikselhud.screen.presets.reset": "Ustawienia fabryczne",
-  "pikselhud.disconnect.reload": "Reload"
+  "pikselhud.disconnect.reload": "PikselHUD: rozłączono przez Reload",
+  "pikselhud.screen.namefriends.title": "Name Protect / Friends",
+  "pikselhud.screen.namefriends.replacement": "Nowy nick",
+  "pikselhud.screen.namefriends.friends": "Znajomi",
+  "pikselhud.screen.namefriends.replacement_hint": "Tekst zastępujący nicki",
+  "pikselhud.screen.namefriends.friends_hint": "Nicki znajomych oddziel przecinkami lub nowymi liniami",
+  "pikselhud.screen.namefriends.save": "Zapisz",
+  "pikselhud.screen.namefriends.cancel": "Anuluj"
 }
