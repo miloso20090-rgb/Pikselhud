@@ -1,5 +1,5 @@
 {
-  "category.pikselhud": "PikselHUD",
+  "key.categories.pikselhud.main": "PikselHUD",
   "key.pikselhud.open_gui": "Otwórz PikselHUD",
   "pikselhud.screen.main.title": "PikselHUD",
   "pikselhud.screen.main.settings": "Ustawienia",

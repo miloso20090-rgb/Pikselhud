@@ -29,7 +29,7 @@ public class PikselHudClient implements ClientModInitializer {
                 "key.pikselhud.open_gui",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_P,
-                "category.pikselhud"
+                KeyBinding.Category.create(Identifier.of(MOD_ID, "main"))
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.pikselhud.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "PlayerListHudMixin",
+    "ChatHudMixin",
+    "InGameHudMixin",
+    "PlayerEntityRendererMixin",
+    "PlayerListEntryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
