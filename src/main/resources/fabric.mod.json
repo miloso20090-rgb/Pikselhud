@@ -4,11 +4,17 @@
   "version": "${version}",
   "name": "PikselHUD",
   "description": "Konfigurowalny, autorski HUD kliencki: koordynaty, FPS i ping.",
-  "authors": ["Piotr"],
+  "authors": [
+    "Piotr"
+  ],
   "license": "MIT",
   "icon": "assets/pikselhud/icon.png",
   "environment": "client",
-  "entrypoints": { "client": ["com.pikselhud.PikselHudClient"] },
+  "entrypoints": {
+    "client": [
+      "com.pikselhud.PikselHudClient"
+    ]
+  },
   "depends": {
     "fabricloader": ">=0.18.0",
     "minecraft": "~1.21.11",

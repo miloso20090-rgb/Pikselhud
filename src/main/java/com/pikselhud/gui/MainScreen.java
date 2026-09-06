@@ -27,6 +27,7 @@ public class MainScreen extends Screen {
                 Text.translatable("pikselhud.screen.main.presets"),
                 button -> this.client.setScreen(new PresetsScreen(this))
         ).dimensions(centerX - 100, centerY, 200, 20).build());
+
     }
 
     @Override
